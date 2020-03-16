@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		#main{
+			width: 600px;
+			height: 150px;
+		}
+		#title{
+			font-size: 30px;
+			font-weight: bold;
+			color: red;
+		}
+		#colorSelector{
+			width: 570px;
+			height: 40px;
+			border: 1px solid;
+			padding-top: 20px;
+			padding-left: 20px;
+			
+		}
+		.colorBlock{
+			display: inline-block;
+			width: 30px;
+			height: 20px;
+			margin-right: 10px;
+		}
+		.colorBlock:hover{
+			cursor:pointer;
+		}
+		.selected {
+			position: relative;
+			top: -10px;
+		}
+		#description{
+			margin-top: 10px;
+			width: 590px;
+			height: 40px;
+		}
+	</style>
+	<body>
+		   <fieldset id="main">
+				<legend id="title">网页换肤</legend>
+				<div id="colorSelector">
+					<div class="colorBlock" id="redBlock" style="background-color: red;"></div>
+					<div class="colorBlock" id="violetBlock" style="background-color: violet;"></div>
+					<div class="colorBlock" id="pinkBlock" style="background-color: pink;"></div>
+					<div class="colorBlock" id="blueBlock" style="background-color: blue;"></div>
+					<div class="colorBlock" id="yellowBlock" style="background-color: yellow;"></div>
+					<div class="colorBlock" id="greenBlock" style="background-color: green;"></div>
+				</div>
+				<div id="description">
+					localStorage将数据保存在客户端本地的硬件设备中，即时浏览器被关闭了，该数据依然存在，下次打开浏览器访问网站时仍然可以继续使用
+				</div>
+			</fieldset>
+	</body>
+	<script>
+		var colorGroup = {"red" : document.getElementById('redBlock'),
+						  "violet" : document.getElementById('violetBlock'),
+						  "pink" : document.getElementById('pinkBlock'),
+						  "blue" : document.getElementById('blueBlock'),
+						  "yellow" : document.getElementById('yellowBlock'),
+						  "green" : document.getElementById('greenBlock')};
+		var description = document.getElementById('description');
+		for (var key in colorGroup) {
+			colorGroup[key].onclick = function() {
+				reset();
+				for (var colorKey in colorGroup) {
+					if (this === colorGroup[colorKey]) {
+						localStorage.setItem('selectColor', colorKey);
+						description.style.backgroundColor = colorKey;
+					}
+				}
+				this.classList.add("selected");
+			}
+		}
+		var selectColor = localStorage.getItem('selectColor');
+		if (selectColor === null) {
+			colorGroup['red'].classList.add("selected");
+			localStorage.setItem('selectColor', "red");
+			description.style.backgroundColor = "red";
+		} else {
+			colorGroup[selectColor].classList.add("selected");
+			description.style.backgroundColor = selectColor;
+		}
+		function reset() {
+			for (var key in colorGroup) {
+				colorGroup[key].classList.remove("selected");
+			}
+		}
+		
+	</script>
+</html>
